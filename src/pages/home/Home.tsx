@@ -1,8 +1,9 @@
-import React from "react";
+
 import AnnouncementBar from "./AnnouncementBar";
+import ExclusiveBooks from "./ExclusiveBooks";
 import HotDeals from "./HotDeals";
 import Recommended from "./Recommended";
-// import News from "./News";
+
 
 const Home = () => {
   return (
@@ -10,7 +11,8 @@ const Home = () => {
       <AnnouncementBar />
       <HotDeals />
       <Recommended />
-      {/* <News /> */}
+      <ExclusiveBooks/>
+     
     </>
   );
 };
