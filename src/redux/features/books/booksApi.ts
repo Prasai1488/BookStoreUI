@@ -11,6 +11,7 @@ type FetchBooksParams = {
   order?: string;
   page?: number;
   pageSize?: number;
+  isExclusive?: boolean;
 };
 
 type FetchBooksResponse = {

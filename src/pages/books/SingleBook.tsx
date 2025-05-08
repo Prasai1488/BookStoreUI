@@ -44,6 +44,15 @@ const SingleBook = () => {
           <p className="text-gray-700 mb-4 capitalize">
             <strong>Category:</strong> {book?.genre}
           </p>
+          <p className="text-gray-700 mb-4 capitalize">
+            <strong>Stock Quantity:</strong> {book?.stockQuantity} pcs
+          </p>
+          <p className="text-gray-700 mb-4 capitalize">
+            <strong>Price:</strong> {book?.price}
+          </p>
+          <p className="text-gray-700 mb-4 capitalize">
+            <strong>Format:</strong> {book?.format}
+          </p>
           <p className="text-gray-700">
             <strong>Description:</strong> {book?.description}
           </p>
