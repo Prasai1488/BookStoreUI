@@ -19,6 +19,7 @@ import Footer from "./components/Footer";
 import { AuthProvider } from "./context/AuthContext";
 import { useEffect, useState } from "react";
 import Loading from "./components/Loading";
+import Toast from "./components/Toast";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -41,6 +42,7 @@ function App() {
       <AuthProvider>
         <Navbar />
         <main className="min-h-screen max-w-screen-2xl mx-auto px-4 py-6 font-primary">
+          <Toast/>
           <Outlet />
         </main>
         <Footer />
