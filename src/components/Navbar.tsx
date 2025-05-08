@@ -12,6 +12,7 @@ import { useSelector } from "react-redux";
 import { useAuth } from "../context/AuthContext";
 import { useAppDispatch } from "../redux/hooks";
 import { showToast } from "../redux/features/toastSlice";
+import { useNavigate } from "react-router-dom";
 
 const protectedNavigation = [
   { name: "Dashboard", href: "/user-dashboard" },
@@ -21,8 +22,10 @@ const protectedNavigation = [
 ];
 
 const Navbar = () => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-//   const cartItems = useSelector((state: any) => state.cart.cartItems);
+  //   const cartItems = useSelector((state: any) => state.cart.cartItems);
   const { currentUser, logout } = useAuth();
   const dispatch = useAppDispatch();
 
@@ -31,6 +34,13 @@ const Navbar = () => {
     dispatch(
       showToast({ type: "success", message: "Logged out successfully." })
     );
+  };
+
+  const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && searchTerm.trim()) {
+      navigate(`/search?query=${encodeURIComponent(searchTerm.trim())}`);
+      setSearchTerm(""); // optional: clear after search
+    }
   };
 
   return (
@@ -48,6 +58,9 @@ const Navbar = () => {
             <input
               type="text"
               placeholder="Search here"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              onKeyDown={handleSearch}
               className="bg-[#EAEAEA] w-full py-1 md:px-8 px-6 rounded-md focus:outline-none"
             />
           </div>
