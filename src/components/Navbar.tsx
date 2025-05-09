@@ -19,7 +19,7 @@ const protectedNavigation = [
   { name: "Bookmark-List", href: "/bookmarks" },
   { name: "Orders", href: "/orders" },
   { name: "Cart Page", href: "/cart" },
-  { name: "Check Out", href: "/checkout" },
+  { name: "My Reviews", href: "/my-reviews" },
 ];
 
 const Navbar = () => {
@@ -109,6 +109,18 @@ const Navbar = () => {
                           </Link>
                         </li>
                       ))}
+
+                      {/* 🔐 Staff only option */}
+                      {currentUser.role === "Staff" && (
+                        <li onClick={() => setIsDropdownOpen(false)}>
+                          <Link
+                            to="/fulfill-order"
+                            className="block px-4 py-2 text-sm hover:bg-gray-100 text-blue-700 font-medium"
+                          >
+                            Fulfill Order
+                          </Link>
+                        </li>
+                      )}
 
                       <li>
                         <button

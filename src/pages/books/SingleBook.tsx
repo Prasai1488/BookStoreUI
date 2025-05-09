@@ -13,6 +13,7 @@ import { useAuth } from "../../context/AuthContext";
 import { showToast } from "../../redux/features/toastSlice";
 import { useAppDispatch } from "../../redux/hooks";
 import { useState } from "react";
+import AddReviewForm from "../../components/books/AddReviewForm";
 
 const SingleBook = () => {
   const { id } = useParams();
@@ -163,6 +164,12 @@ const SingleBook = () => {
           </div>
         )}
       </div>
+
+      {currentUser?.role === "Member" && (
+        <div className="mt-8">
+          <AddReviewForm bookId={bookId} />
+        </div>
+      )}
     </div>
   );
 };

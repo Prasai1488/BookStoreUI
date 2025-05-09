@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import {
   useGetCartQuery,
   useRemoveFromCartMutation,
@@ -9,10 +9,19 @@ import {
 import { useAuth } from "../../context/AuthContext";
 import { useAppDispatch } from "../../redux/hooks";
 import { showToast } from "../../redux/features/toastSlice";
+import { usePlaceOrderMutation } from "../../redux/features/orders/ordersApi";
+import { showConfirmation } from "../../redux/features/confirmation/confirmationSlice";
+
+// Define the outlet context type
+type OutletContextType = {
+  setOnConfirmFn: React.Dispatch<React.SetStateAction<() => void>>;
+};
 
 const CartPage = () => {
   const { currentUser } = useAuth();
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const { setOnConfirmFn } = useOutletContext<OutletContextType>();
 
   const { data: cartItems = [], isLoading } = useGetCartQuery(undefined, {
     skip: !currentUser,
@@ -21,6 +30,7 @@ const CartPage = () => {
   const [removeFromCart] = useRemoveFromCartMutation();
   const [decreaseQuantity] = useDecreaseQuantityMutation();
   const [addToCart] = useAddToCartMutation();
+  const [placeOrder, { isLoading: isPlacingOrder }] = usePlaceOrderMutation();
 
   const handleRemove = async (bookId: number) => {
     try {
@@ -33,7 +43,7 @@ const CartPage = () => {
 
   const handleDecrease = async (bookId: number) => {
     try {
-      await decreaseQuantity(bookId).unwrap(); // unwrap throws if error
+      await decreaseQuantity(bookId).unwrap();
       dispatch(
         showToast({ type: "success", message: "Quantity decreased by 1." })
       );
@@ -57,11 +67,67 @@ const CartPage = () => {
     }
   };
 
+  const handlePlaceOrder = async () => {
+    try {
+      const result = await placeOrder(undefined).unwrap();
+      dispatch(showToast({ type: "success", message: result.message }));
+      navigate("/orders");
+    } catch (err: any) {
+      dispatch(
+        showToast({
+          type: "error",
+          message: err?.data?.message || "Failed to place order",
+        })
+      );
+    }
+  };
+
+  const handleCheckoutClick = () => {
+    dispatch(
+      showConfirmation({
+        message:
+          "Are you sure you want to place this order? An email will be sent with your claim code and bill. You must present the claim code and your membership ID at the store to complete your purchase.",
+      })
+    );
+    setOnConfirmFn(() => handlePlaceOrder);
+  };
+
   const total = cartItems.reduce(
     (acc: number, item: any) =>
       acc + item.quantity * (item.onSale ? item.salePrice : item.price),
     0
   );
+
+  const totalQuantity = cartItems.reduce(
+    (acc: number, item: any) => acc + item.quantity,
+    0
+  );
+
+  const subtotal = cartItems.reduce(
+    (acc: number, item: any) =>
+      acc + item.quantity * (item.onSale ? item.salePrice : item.price),
+    0
+  );
+
+  let discount = 0;
+  let base5Percent = false;
+  let extra10Percent = false;
+
+  // Apply 5% discount if 5+ books
+  if (totalQuantity >= 5) {
+    base5Percent = true;
+    discount += subtotal * 0.05;
+  }
+
+  // Optional: simulate completed orders if available in currentUser
+  // Example: currentUser.completedOrders = 10
+  if (currentUser?.completedOrders >= 10) {
+    extra10Percent = true;
+    const afterBase = subtotal - (base5Percent ? subtotal * 0.05 : 0);
+    discount += afterBase * 0.1;
+  }
+
+  const finalTotal = subtotal - discount;
 
   return (
     <div className="max-w-5xl mx-auto p-5">
@@ -118,9 +184,35 @@ const CartPage = () => {
           ))}
 
           <div className="flex justify-between items-center mt-6 border-t pt-4">
-            <h3 className="text-xl font-bold">Subtotal: Rs. {total}</h3>
-            <button className="btn-primary px-6 py-2">
-              Proceed to Checkout
+            <div className="text-sm space-y-1 text-gray-800">
+              <p>
+                📚 Subtotal ({totalQuantity} books): Rs. {subtotal.toFixed(2)}
+              </p>
+
+              {base5Percent && (
+                <p className="text-green-600">
+                  🎁 5% discount applied: - Rs. {(subtotal * 0.05).toFixed(2)}
+                </p>
+              )}
+
+              {extra10Percent && (
+                <p className="text-green-600">
+                  💳 Loyalty discount (10%): - Rs.{" "}
+                  {(finalTotal * 0.1).toFixed(2)}
+                </p>
+              )}
+
+              <p className="font-bold text-lg pt-2">
+                Total: Rs. {finalTotal.toFixed(2)}
+              </p>
+            </div>
+
+            <button
+              onClick={handleCheckoutClick}
+              disabled={isPlacingOrder}
+              className="btn-primary px-6 py-2"
+            >
+              {isPlacingOrder ? "Placing Order..." : "Proceed to Checkout"}
             </button>
           </div>
         </div>
