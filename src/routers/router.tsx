@@ -8,6 +8,10 @@ import SearchResults from "../pages/books/SearchResults";
 import BookmarkedBooks from "../pages/books/BookmarkedBooks";
 import ProtectedRoute from "./ProtectedRoute";
 import CartPage from "../pages/cart/CartPage";
+import OrdersPage from "../pages/orders/OrdersPage";
+import StaffRoute from "./StaffRoute";
+import FulfillOrderPage from "../pages/orders/FulfillOrderPage";
+import MyReviewsPage from "../pages/books/MyReviewsPage";
 
 const router = createBrowserRouter([
   {
@@ -48,6 +52,30 @@ const router = createBrowserRouter([
           <ProtectedRoute>
             <CartPage />
           </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/orders",
+        element: (
+          <ProtectedRoute>
+            <OrdersPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/my-reviews",
+        element: (
+          <ProtectedRoute>
+            <MyReviewsPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/fulfill-order",
+        element: (
+          <StaffRoute>
+            <FulfillOrderPage />
+          </StaffRoute>
         ),
       },
     ],
