@@ -43,10 +43,18 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       email,
       password,
     });
-    const user = res.data;
-    setCurrentUser(user);
-    localStorage.setItem("user", JSON.stringify(user));
-    return user;
+
+    const { token, user } = res.data;
+
+    const fullUser = {
+      ...user,
+      token,
+    };
+
+    setCurrentUser(fullUser);
+    localStorage.setItem("user", JSON.stringify(fullUser));
+
+    return fullUser;
   };
 
   // Logout
