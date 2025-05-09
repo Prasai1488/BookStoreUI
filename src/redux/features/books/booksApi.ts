@@ -37,6 +37,9 @@ export const booksApi = apiSlice.injectEndpoints({
 
     getBookReviews: builder.query({
       query: (bookId) => `/public/books/${bookId}/reviews`,
+      providesTags: (result, error, bookId) => [
+        { type: "Reviews", id: bookId },
+      ],
     }),
 
     addBookmark: builder.mutation<any, number>({
