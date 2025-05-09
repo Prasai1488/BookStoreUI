@@ -1,6 +1,6 @@
 // src/redux/features/books/booksApi.ts
-import { apiSlice } from "../../api/apiSlice"; // ✅ Adjust this path if needed
-import type { BookResponseDto } from "../../../types/bookTypes"; // ✅ Optional: define or adjust based on your DTO
+import { apiSlice } from "../../api/apiSlice";
+import type { BookResponseDto } from "../../../types/bookTypes";
 
 type FetchBooksParams = {
   search?: string;
@@ -30,11 +30,43 @@ export const booksApi = apiSlice.injectEndpoints({
         return `/public/books?${searchParams}`;
       },
     }),
-    // ✅ Book by ID
+
     fetchBookById: builder.query<BookResponseDto, string | number>({
       query: (id) => `public/books/${id}`,
+    }),
+
+    getBookReviews: builder.query({
+      query: (bookId) => `/public/books/${bookId}/reviews`,
+    }),
+
+    addBookmark: builder.mutation<any, number>({
+      query: (bookId) => ({
+        url: `/member/bookmarks/${bookId}`,
+        method: "POST",
+      }),
+      invalidatesTags: ["Bookmarks"],
+    }),
+
+    removeBookmark: builder.mutation<any, number>({
+      query: (bookId) => ({
+        url: `/member/bookmarks/${bookId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Bookmarks"],
+    }),
+
+    getBookmarks: builder.query<BookResponseDto[], void>({
+      query: () => "/member/bookmarks",
+      providesTags: ["Bookmarks"],
     }),
   }),
 });
 
-export const { useFetchBooksQuery,useFetchBookByIdQuery } = booksApi;
+export const {
+  useFetchBooksQuery,
+  useFetchBookByIdQuery,
+  useGetBookReviewsQuery,
+  useAddBookmarkMutation,
+  useRemoveBookmarkMutation,
+  useGetBookmarksQuery,
+} = booksApi;
