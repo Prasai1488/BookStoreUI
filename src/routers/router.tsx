@@ -5,11 +5,14 @@ import Register from "../components/Register";
 import Home from "../pages/home/Home";
 import SingleBook from "../pages/books/SingleBook";
 import SearchResults from "../pages/books/SearchResults";
+import BookmarkedBooks from "../pages/books/BookmarkedBooks";
+import ProtectedRoute from "./ProtectedRoute";
+import CartPage from "../pages/cart/CartPage";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: <App />, // Common layout for all routes
     children: [
       {
         path: "/",
@@ -30,6 +33,22 @@ const router = createBrowserRouter([
       {
         path: "/search",
         element: <SearchResults />,
+      },
+      {
+        path: "/bookmarks", // 🔒 Protected but still inside App layout
+        element: (
+          <ProtectedRoute>
+            <BookmarkedBooks />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "cart",
+        element: (
+          <ProtectedRoute>
+            <CartPage />
+          </ProtectedRoute>
+        ),
       },
     ],
   },
