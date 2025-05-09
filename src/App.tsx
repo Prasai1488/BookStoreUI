@@ -1,17 +1,3 @@
-// import { Outlet } from "react-router-dom";
-// import Toast from "./components/Toast";
-
-// const App = () => {
-//   return (
-//     <>
-//       <Toast />
-//       <Outlet />
-//     </>
-//   );
-// };
-
-// export default App;
-
 import { Outlet } from "react-router-dom";
 import "./App.css";
 import Navbar from "./components/Navbar";
@@ -42,7 +28,7 @@ function App() {
       <AuthProvider>
         <Navbar />
         <main className="min-h-screen max-w-screen-2xl mx-auto px-4 py-6 font-primary">
-          <Toast/>
+          <Toast />
           <Outlet />
         </main>
         <Footer />

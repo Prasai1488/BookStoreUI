@@ -1,5 +1,3 @@
-
-
 import React from "react";
 import type { BookResponseDto } from "../../types/bookTypes";
 import { Link } from "react-router-dom";
