@@ -13,9 +13,10 @@ import { useAuth } from "../context/AuthContext";
 import { useAppDispatch } from "../redux/hooks";
 import { showToast } from "../redux/features/toastSlice";
 import { useNavigate } from "react-router-dom";
+import { useGetCartQuery } from "../redux/features/cart/cartApi";
 
 const protectedNavigation = [
-  { name: "Dashboard", href: "/user-dashboard" },
+  { name: "Bookmark-List", href: "/bookmarks" },
   { name: "Orders", href: "/orders" },
   { name: "Cart Page", href: "/cart" },
   { name: "Check Out", href: "/checkout" },
@@ -28,6 +29,14 @@ const Navbar = () => {
   //   const cartItems = useSelector((state: any) => state.cart.cartItems);
   const { currentUser, logout } = useAuth();
   const dispatch = useAppDispatch();
+  const { data: cartItems = [] } = useGetCartQuery(undefined, {
+    skip: !currentUser,
+  });
+
+  const cartCount = cartItems.reduce(
+    (acc: number, item: any) => acc + item.quantity,
+    0
+  );
 
   const handleLogOut = () => {
     logout();
@@ -126,15 +135,16 @@ const Navbar = () => {
               <button className="hidden sm:block">
                 <HiOutlineHeart className="size-6" />
               </button>
-
               <Link
                 to="/cart"
-                className="bg-primary p-1 sm:px-6 px-2 flex items-center rounded-sm"
+                className="relative bg-primary p-1 sm:px-6 px-2 flex items-center rounded-sm"
               >
                 <HiOutlineShoppingCart />
-                <span className="text-sm font-semibold sm:ml-1">
-                  {/* {cartItems.length > 0 ? cartItems.length : 0} */}
-                </span>
+                {cartCount > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full px-1.5">
+                    {cartCount}
+                  </span>
+                )}
               </Link>
             </>
           )}
