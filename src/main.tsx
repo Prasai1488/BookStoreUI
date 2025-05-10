@@ -6,7 +6,7 @@ import "sweetalert2/dist/sweetalert2.js";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
 import { AuthProvider } from "./context/AuthContext"; // ✅ import AuthProvider
-import "./index.css";
+import "./index.css"; // ✅ import global styles
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

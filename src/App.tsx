@@ -45,7 +45,6 @@ function App() {
             }}
             onCancel={() => dispatch(hideConfirmation())}
           />
-          
         </main>
         <Footer />
       </AuthProvider>
