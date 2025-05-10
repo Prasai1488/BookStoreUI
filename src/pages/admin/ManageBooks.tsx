@@ -6,8 +6,14 @@ import { showConfirmation } from "../../redux/features/confirmation/confirmation
 import { showToast } from "../../redux/features/toastSlice";
 import { useDeleteBookMutation } from "../../redux/features/admin/adminApi";
 import type { BookResponseDto } from "../../types/bookTypes";
+import { useOutletContext } from "react-router-dom";
+
+type OutletContextType = {
+  setOnConfirmFn: React.Dispatch<React.SetStateAction<() => void>>;
+};
 
 const ManageBooks = () => {
+  const { setOnConfirmFn } = useOutletContext<OutletContextType>();
   const dispatch = useAppDispatch();
   const { data: books = [], isLoading, refetch } = useGetAllAdminBooksQuery();
   const [deleteBook] = useDeleteBookMutation();
@@ -31,10 +37,7 @@ const ManageBooks = () => {
         message: "Are you sure you want to delete this book?",
       })
     );
-    setTimeout(() => {
-      // Assign confirm action
-      handleDelete(id);
-    }, 0);
+    setOnConfirmFn(() => () => handleDelete(id)); // ✅ wrap in anonymous function
   };
 
   const handleDelete = async (id: number) => {

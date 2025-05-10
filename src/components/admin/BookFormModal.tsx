@@ -118,6 +118,28 @@ const BookFormModal: React.FC<Props> = ({ isOpen, onClose, existingBook }) => {
 
   const handleSubmit = async () => {
     const errors: string[] = [];
+    const normalize = (value: any) =>
+      value === undefined || value === "" ? undefined : value;
+
+    const cleanForm = {
+      title: form.title.trim(),
+      author: form.author.trim(),
+      description: normalize(form.description?.trim()),
+      isbn: normalize(form.isbn),
+      genre: form.genre,
+      format: form.format,
+      language: normalize(form.language),
+      publisher: normalize(form.publisher),
+      publicationDate: normalize(form.publicationDate),
+      price: Number(form.price),
+      stockQuantity: Number(form.stockQuantity),
+      isExclusive: form.isExclusive,
+      onSale: form.onSale,
+      salePrice: normalize(form.salePrice),
+      saleStart: normalize(form.saleStart),
+      saleEnd: normalize(form.saleEnd),
+      imageUrl: normalize(form.imageUrl),
+    };
 
     if (!form.title.trim()) errors.push("Title is required");
     if (!form.author.trim()) errors.push("Author is required");
@@ -133,7 +155,8 @@ const BookFormModal: React.FC<Props> = ({ isOpen, onClose, existingBook }) => {
 
     try {
       if (isEditMode) {
-        await updateBook({ id: existingBook.bookId, data: form }).unwrap();
+        console.log("📤 Submitting book update payload:", cleanForm);
+        await updateBook({ id: existingBook.bookId, data: cleanForm }).unwrap();
         dispatch(showToast({ type: "success", message: "Book updated." }));
       } else {
         await createBook(form).unwrap();
