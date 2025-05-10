@@ -96,13 +96,34 @@ const SingleBook = () => {
             <strong>Stock Quantity:</strong> {book?.stockQuantity} pcs
           </p>
           <p>
-            <strong>Price:</strong> Rs. {book?.price}
+            <strong>Price:</strong>{" "}
+            {book?.salePrice !== null ? (
+              <>
+                <span className="line-through text-gray-500 mr-2">
+                  Rs. {book?.price}
+                </span>
+                <span className="text-red-600 font-semibold">
+                  Rs. {book?.salePrice}
+                </span>
+              </>
+            ) : (
+              <>Rs. {book?.price}</>
+            )}
           </p>
+
           <p>
             <strong>Format:</strong> {book?.format}
           </p>
           <p>
             <strong>Description:</strong> {book?.description}
+          </p>
+          <p>
+            <strong>Sale Start:</strong>{" "}
+            {book?.saleStart ? book.saleStart.split("T")[0] : "N/A"}
+          </p>
+          <p>
+            <strong>Sale End:</strong>{" "}
+            {book?.saleEnd ? book.saleEnd.split("T")[0] : "N/A"}
           </p>
         </div>
         {currentUser?.role === "Member" && (
