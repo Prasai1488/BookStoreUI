@@ -1,0 +1,100 @@
+import React, { useState } from "react";
+import { useGetAllAdminBooksQuery } from "../../redux/features/admin/adminApi";
+import BookFormModal from "../../components/admin/BookFormModal";
+import { useAppDispatch } from "../../redux/hooks";
+import { showConfirmation } from "../../redux/features/confirmation/confirmationSlice";
+import { showToast } from "../../redux/features/toastSlice";
+import { useDeleteBookMutation } from "../../redux/features/admin/adminApi";
+import type { BookResponseDto } from "../../types/bookTypes";
+
+const ManageBooks = () => {
+  const dispatch = useAppDispatch();
+  const { data: books = [], isLoading, refetch } = useGetAllAdminBooksQuery();
+  const [deleteBook] = useDeleteBookMutation();
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingBook, setEditingBook] = useState<BookResponseDto | null>(null);
+
+  const openCreateModal = () => {
+    setEditingBook(null);
+    setIsModalOpen(true);
+  };
+
+  const openEditModal = (book: BookResponseDto) => {
+    setEditingBook(book);
+    setIsModalOpen(true);
+  };
+
+  const confirmDelete = (id: number) => {
+    dispatch(
+      showConfirmation({
+        message: "Are you sure you want to delete this book?",
+      })
+    );
+    setTimeout(() => {
+      // Assign confirm action
+      handleDelete(id);
+    }, 0);
+  };
+
+  const handleDelete = async (id: number) => {
+    try {
+      await deleteBook(id).unwrap();
+      dispatch(showToast({ type: "success", message: "Book deleted." }));
+      refetch();
+    } catch {
+      dispatch(showToast({ type: "error", message: "Failed to delete book." }));
+    }
+  };
+
+  return (
+    <div className="max-w-6xl mx-auto px-4 py-6">
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-3xl font-semibold">📚 Manage Books</h2>
+        <button onClick={openCreateModal} className="btn-primary">
+          ➕ Add Book
+        </button>
+      </div>
+
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : books.length === 0 ? (
+        <p className="text-gray-600">No books available.</p>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+          {books.map((book) => (
+            <div key={book.bookId} className="border rounded p-4 shadow">
+              <h3 className="font-bold text-lg mb-1">{book.title}</h3>
+              <p className="text-sm text-gray-600">By {book.author}</p>
+              <div className="flex justify-between mt-3 text-sm">
+                <button
+                  onClick={() => openEditModal(book)}
+                  className="text-blue-600 hover:underline"
+                >
+                  ✏️ Edit
+                </button>
+                <button
+                  onClick={() => confirmDelete(book.bookId)}
+                  className="text-red-600 hover:underline"
+                >
+                  🗑 Delete
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      <BookFormModal
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false);
+          refetch();
+        }}
+        existingBook={editingBook || undefined}
+      />
+    </div>
+  );
+};
+
+export default ManageBooks;
