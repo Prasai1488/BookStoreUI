@@ -13,7 +13,7 @@ type LoginFormInputs = {
 
 const Login: React.FC = () => {
   const [message, setMessage] = useState("");
-  const { loginUser } = useAuth();
+  const { loginUser } = useAuth(); // Removed currentUser & loading
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -25,9 +25,15 @@ const Login: React.FC = () => {
 
   const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
     try {
-      await loginUser(data);
+      const user = await loginUser(data);
       dispatch(showToast({ type: "success", message: "Login successful!" }));
-      navigate("/");
+
+      // ✅ Force reload to clear all weird render/hydration bugs
+      if (user.role === "Admin") {
+        window.location.href = "/admin-dashboard";
+      } else {
+        window.location.href = "/";
+      }
     } catch (error) {
       setMessage("Invalid credentials");
       dispatch(
