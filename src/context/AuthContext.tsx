@@ -67,7 +67,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
-      setCurrentUser(JSON.parse(storedUser));
+      const parsed = JSON.parse(storedUser);
+      console.log("✅ Loaded user from localStorage:", parsed); // ✅ ADD HERE
+      setCurrentUser(parsed);
+    } else {
+      console.log("❌ No user found in localStorage.");
     }
     setLoading(false);
   }, []);
