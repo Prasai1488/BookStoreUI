@@ -18,7 +18,7 @@ const BroadcastToast = () => {
         connection.on("OrderPlaced", (msg: string) => {
           setMessage(msg);
 
-          // Hide after 5 seconds
+          // Hide after 12 seconds
           setTimeout(() => {
             setMessage(null);
           }, 12000);

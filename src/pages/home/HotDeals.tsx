@@ -39,7 +39,7 @@ const HotDeals = () => {
 
   return (
     <div className="py-10">
-      <h2 className="text-3xl font-semibold mb-6">🔥 Hot Deals</h2>
+      <h2 className="text-3xl font-semibold mb-6">🔥 On Sale Books</h2>
 
       {/* Category Filter */}
       <div className="mb-8 flex items-center">

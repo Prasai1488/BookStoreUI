@@ -12,34 +12,24 @@ import OrdersPage from "../pages/orders/OrdersPage";
 import StaffRoute from "./StaffRoute";
 import FulfillOrderPage from "../pages/orders/FulfillOrderPage";
 import MyReviewsPage from "../pages/books/MyReviewsPage";
+import AdminRoute from "./AdminRoute";
+import AdminLayout from "../pages/admin/AdminLayout";
+import ManageBooks from "../pages/admin/ManageBooks";
+import AdminDashboard from "../pages/admin/AdminDashboard";
+import ManageAnnouncements from "../pages/admin/ManageAnnouncements";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />, // Common layout for all routes
+    element: <App />, // Public layout with Navbar/Footer
     children: [
+      { path: "/", element: <Home /> },
+      { path: "/login", element: <Login /> },
+      { path: "/register", element: <Register /> },
+      { path: "/books/:id", element: <SingleBook /> },
+      { path: "/search", element: <SearchResults /> },
       {
-        path: "/",
-        element: <Home />,
-      },
-      {
-        path: "/login",
-        element: <Login />,
-      },
-      {
-        path: "/register",
-        element: <Register />,
-      },
-      {
-        path: "/books/:id",
-        element: <SingleBook />,
-      },
-      {
-        path: "/search",
-        element: <SearchResults />,
-      },
-      {
-        path: "/bookmarks", // 🔒 Protected but still inside App layout
+        path: "/bookmarks",
         element: (
           <ProtectedRoute>
             <BookmarkedBooks />
@@ -47,7 +37,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "cart",
+        path: "/cart",
         element: (
           <ProtectedRoute>
             <CartPage />
@@ -78,6 +68,21 @@ const router = createBrowserRouter([
           </StaffRoute>
         ),
       },
+    ],
+  },
+
+  // 🔒 Separate route for Admin Dashboard (No Navbar/Footer)
+  {
+    path: "/admin-dashboard",
+    element: (
+      <AdminRoute>
+        <AdminLayout />
+      </AdminRoute>
+    ),
+    children: [
+      { path: "", element: <AdminDashboard /> },
+      { path: "books", element: <ManageBooks /> },
+        { path: "announcements", element: <ManageAnnouncements /> },
     ],
   },
 ]);
