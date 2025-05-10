@@ -18,3 +18,37 @@ export type BookResponseDto = {
   saleEnd: string | null;
   imageUrl: string;
 };
+
+export type BookGenre =
+  | "Fiction"
+  | "NonFiction"
+  | "Biography"
+  | "History"
+  | "Science"
+  | "Mystery"
+  | "Fantasy"
+  | "Romance"
+  | "SelfHelp"
+  | "Other";
+
+export const BookGenres: BookGenre[] = [
+  "Fiction",
+  "NonFiction",
+  "Biography",
+  "History",
+  "Science",
+  "Mystery",
+  "Fantasy",
+  "Romance",
+  "SelfHelp",
+  "Other",
+];
+
+export type BookFormat = "Hardcover" | "Paperback" | "Ebook" | "Audiobook";
+
+export const BookFormats: BookFormat[] = [
+  "Hardcover",
+  "Paperback",
+  "Ebook",
+  "Audiobook",
+];
