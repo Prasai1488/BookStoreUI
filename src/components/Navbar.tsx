@@ -14,6 +14,7 @@ import { useAppDispatch } from "../redux/hooks";
 import { showToast } from "../redux/features/toastSlice";
 import { useNavigate } from "react-router-dom";
 import { useGetCartQuery } from "../redux/features/cart/cartApi";
+import { apiSlice } from "../redux/api/apiSlice";
 
 const protectedNavigation = [
   { name: "Bookmark-List", href: "/bookmarks" },
@@ -39,10 +40,12 @@ const Navbar = () => {
   );
 
   const handleLogOut = () => {
-    logout();
+    logout(); // clears localStorage + context
+    dispatch(apiSlice.util.resetApiState()); // resets all cached queries
     dispatch(
       showToast({ type: "success", message: "Logged out successfully." })
     );
+    navigate("/login");
   };
 
   const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
