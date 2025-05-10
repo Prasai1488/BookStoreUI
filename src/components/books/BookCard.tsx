@@ -23,7 +23,7 @@ const BookCard: React.FC<Props> = ({ book }) => {
         <p className="text-sm text-gray-600 mb-2">by {book.author}</p>
         <div className="mt-auto">
           <div className="text-primary font-bold text-md mb-2">
-            {book.onSale && book.salePrice !== null ? (
+            {book.salePrice !== null ? (
               <>
                 <span className="line-through text-gray-400 mr-2">
                   ${book.price.toFixed(2)}
