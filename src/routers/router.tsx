@@ -82,7 +82,7 @@ const router = createBrowserRouter([
     children: [
       { path: "", element: <AdminDashboard /> },
       { path: "books", element: <ManageBooks /> },
-        { path: "announcements", element: <ManageAnnouncements /> },
+      { path: "announcements", element: <ManageAnnouncements /> },
     ],
   },
 ]);

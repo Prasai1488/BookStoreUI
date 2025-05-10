@@ -30,9 +30,9 @@ const Login: React.FC = () => {
 
       // ✅ Force reload to clear all weird render/hydration bugs
       if (user.role === "Admin") {
-        window.location.href = "/admin-dashboard";
+        navigate("/admin-dashboard");
       } else {
-        window.location.href = "/";
+        navigate("/");
       }
     } catch (error) {
       setMessage("Invalid credentials");

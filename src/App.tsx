@@ -31,23 +31,21 @@ function App() {
 
   return (
     <>
-      <AuthProvider>
-        <Navbar />
-        <main className="min-h-screen max-w-screen-2xl mx-auto px-4 py-6 font-primary">
-          <Toast />
-          <Outlet context={{ setOnConfirmFn }} />
-          <ConfirmationDialog
-            isOpen={isOpen}
-            message={message}
-            onConfirm={() => {
-              onConfirmFn();
-              dispatch(hideConfirmation());
-            }}
-            onCancel={() => dispatch(hideConfirmation())}
-          />
-        </main>
-        <Footer />
-      </AuthProvider>
+      <Navbar />
+      <main className="min-h-screen max-w-screen-2xl mx-auto px-4 py-6 font-primary">
+        <Toast />
+        <Outlet context={{ setOnConfirmFn }} />
+        <ConfirmationDialog
+          isOpen={isOpen}
+          message={message}
+          onConfirm={() => {
+            onConfirmFn();
+            dispatch(hideConfirmation());
+          }}
+          onCancel={() => dispatch(hideConfirmation())}
+        />
+      </main>
+      <Footer />
     </>
   );
 }

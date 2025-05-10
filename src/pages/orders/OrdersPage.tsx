@@ -8,6 +8,7 @@ import { showToast } from "../../redux/features/toastSlice";
 import { showConfirmation } from "../../redux/features/confirmation/confirmationSlice";
 import { useOutletContext } from "react-router-dom";
 
+
 type OutletContextType = {
   setOnConfirmFn: React.Dispatch<React.SetStateAction<() => void>>;
 };
@@ -16,6 +17,7 @@ type OrderStatus = "Pending" | "Completed" | "Cancelled";
 
 const OrdersPage = () => {
   const dispatch = useAppDispatch();
+
   const { setOnConfirmFn } = useOutletContext<OutletContextType>();
   const [status, setStatus] = useState<OrderStatus | undefined>(undefined);
 

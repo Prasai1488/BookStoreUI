@@ -1,6 +1,6 @@
 import React from "react";
-import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { hideConfirmation } from "../redux/features/confirmation/confirmationSlice";
+// import { useAppDispatch, useAppSelector } from "../redux/hooks";
+// import { hideConfirmation } from "../redux/features/confirmation/confirmationSlice";
 
 interface Props {
   isOpen: boolean;
