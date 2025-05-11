@@ -13,9 +13,19 @@ type OutletContextType = {
 };
 
 const ManageBooks = () => {
+  const [page, setPage] = useState(1);
+  const pageSize = 6;
+
   const { setOnConfirmFn } = useOutletContext<OutletContextType>();
   const dispatch = useAppDispatch();
-  const { data: books = [], isLoading, refetch } = useGetAllAdminBooksQuery();
+
+  const { data, isLoading, refetch } = useGetAllAdminBooksQuery({
+    page,
+    pageSize,
+  });
+  const books = data?.books || [];
+  const totalPages = data?.totalPages || 1;
+
   const [deleteBook] = useDeleteBookMutation();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -37,7 +47,7 @@ const ManageBooks = () => {
         message: "Are you sure you want to delete this book?",
       })
     );
-    setOnConfirmFn(() => () => handleDelete(id)); // ✅ wrap in anonymous function
+    setOnConfirmFn(() => () => handleDelete(id));
   };
 
   const handleDelete = async (id: number) => {
@@ -64,28 +74,51 @@ const ManageBooks = () => {
       ) : books.length === 0 ? (
         <p className="text-gray-600">No books available.</p>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
-          {books.map((book) => (
-            <div key={book.bookId} className="border rounded p-4 shadow">
-              <h3 className="font-bold text-lg mb-1">{book.title}</h3>
-              <p className="text-sm text-gray-600">By {book.author}</p>
-              <div className="flex justify-between mt-3 text-sm">
-                <button
-                  onClick={() => openEditModal(book)}
-                  className="text-blue-600 hover:underline"
-                >
-                  ✏️ Edit
-                </button>
-                <button
-                  onClick={() => confirmDelete(book.bookId)}
-                  className="text-red-600 hover:underline"
-                >
-                  🗑 Delete
-                </button>
+        <>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+            {books.map((book) => (
+              <div key={book.bookId} className="border rounded p-4 shadow">
+                <h3 className="font-bold text-lg mb-1">{book.title}</h3>
+                <p className="text-sm text-gray-600">By {book.author}</p>
+                <div className="flex justify-between mt-3 text-sm">
+                  <button
+                    onClick={() => openEditModal(book)}
+                    className="text-blue-600 hover:underline"
+                  >
+                    ✏️ Edit
+                  </button>
+                  <button
+                    onClick={() => confirmDelete(book.bookId)}
+                    className="text-red-600 hover:underline"
+                  >
+                    🗑 Delete
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+
+          {/* Pagination Controls */}
+          <div className="flex justify-between items-center mt-6">
+            <button
+              onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+              disabled={page === 1}
+              className="px-4 py-2 border rounded disabled:opacity-50"
+            >
+              ⬅ Prev
+            </button>
+            <span className="text-sm font-medium">
+              Page {page} of {totalPages}
+            </span>
+            <button
+              onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
+              disabled={page === totalPages}
+              className="px-4 py-2 border rounded disabled:opacity-50"
+            >
+              Next ➡
+            </button>
+          </div>
+        </>
       )}
 
       <BookFormModal

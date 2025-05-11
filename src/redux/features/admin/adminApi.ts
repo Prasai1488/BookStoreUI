@@ -5,8 +5,18 @@ import type { Announcement } from "../../../types/announcementTypes";
 export const adminApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     // 📚 Book Management Endpoints
-    getAllAdminBooks: builder.query<BookResponseDto[], void>({
-      query: () => "/admin/books",
+    getAllAdminBooks: builder.query<
+      {
+        books: BookResponseDto[];
+        currentPage: number;
+        pageSize: number;
+        totalPages: number;
+        totalCount: number;
+      },
+      { page: number; pageSize: number }
+    >({
+      query: ({ page, pageSize }) =>
+        `/admin/books?page=${page}&pageSize=${pageSize}`,
       providesTags: ["AdminBooks"],
     }),
 
