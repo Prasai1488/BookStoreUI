@@ -1,4 +1,3 @@
-import React from "react";
 import BookCard from "../../components/books/BookCard";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Navigation } from "swiper/modules";

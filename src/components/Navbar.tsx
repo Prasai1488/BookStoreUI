@@ -8,7 +8,7 @@ import {
 import { IoSearchOutline } from "react-icons/io5";
 import avatarImg from "../assets/avatar.png";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+
 import { useAuth } from "../context/AuthContext";
 import { useAppDispatch } from "../redux/hooks";
 import { showToast } from "../redux/features/toastSlice";

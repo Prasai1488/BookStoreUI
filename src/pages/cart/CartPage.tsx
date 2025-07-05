@@ -92,11 +92,11 @@ const CartPage = () => {
     setOnConfirmFn(() => handlePlaceOrder);
   };
 
-  const total = cartItems.reduce(
-    (acc: number, item: any) =>
-      acc + item.quantity * (item.onSale ? item.salePrice : item.price),
-    0
-  );
+  // const total = cartItems.reduce(
+  //   (acc: number, item: any) =>
+  //     acc + item.quantity * (item.onSale ? item.salePrice : item.price),
+  //   0
+  // );
 
   const totalQuantity = cartItems.reduce(
     (acc: number, item: any) => acc + item.quantity,

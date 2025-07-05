@@ -24,9 +24,7 @@ export const reviewsApi = apiSlice.injectEndpoints({
         method: "POST",
         body,
       }),
-      invalidatesTags: (result, error, arg) => [
-        { type: "Reviews", id: arg.bookId },
-      ],
+      invalidatesTags: (_, __, arg) => [{ type: "Reviews", id: arg.bookId }],
     }),
 
     getMyReviews: builder.query<MyReview[], void>({

@@ -15,7 +15,7 @@ type RegisterFormInputs = {
 
 const Register: React.FC = () => {
   const dispatch = useAppDispatch();
-  const [message, setMessage] = useState<string>("");
+  const [message] = useState<string>("");
   const { registerUser } = useAuth();
   const navigate = useNavigate();
 

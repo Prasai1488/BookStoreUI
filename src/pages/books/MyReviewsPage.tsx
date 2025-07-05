@@ -1,12 +1,7 @@
-import React from "react";
 import { useGetMyReviewsQuery } from "../../redux/features/reviews/reviewsApi";
 
 const MyReviewsPage = () => {
-  const {
-    data: reviews = [],
-    isLoading,
-    refetch,
-  } = useGetMyReviewsQuery(undefined, {
+  const { data: reviews = [], isLoading } = useGetMyReviewsQuery(undefined, {
     refetchOnMountOrArgChange: true,
   });
 
