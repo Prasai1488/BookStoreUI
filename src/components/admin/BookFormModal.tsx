@@ -271,6 +271,7 @@ const BookFormModal: React.FC<Props> = ({ isOpen, onClose, existingBook }) => {
             type="date"
             value={form.publicationDate || ""}
             onChange={handleChange}
+            placeholder="Publication Date"
             className="border p-2 rounded"
           />
           <input

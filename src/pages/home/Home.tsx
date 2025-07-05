@@ -1,4 +1,5 @@
 import AnnouncementBar from "./AnnouncementBar";
+import BestSellers from "./BestSellers";
 import BroadcastToast from "./BroadcastToast";
 import ExclusiveBooks from "./ExclusiveBooks";
 import HotDeals from "./HotDeals";
@@ -12,6 +13,7 @@ const Home = () => {
       <HotDeals />
       <Recommended />
       <ExclusiveBooks />
+      <BestSellers />
     </>
   );
 };

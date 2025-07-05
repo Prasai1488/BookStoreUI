@@ -20,6 +20,7 @@ type FetchBooksResponse = {
   totalPages: number;
   totalCount: number;
   books: BookResponseDto[];
+  bestSellers: BookResponseDto[];
 };
 
 export const booksApi = apiSlice.injectEndpoints({
@@ -62,6 +63,13 @@ export const booksApi = apiSlice.injectEndpoints({
       query: () => "/member/bookmarks",
       providesTags: ["Bookmarks"],
     }),
+    getBestSellingBooks: builder.query<
+      FetchBooksResponse,
+      { page?: number; pageSize?: number }
+    >({
+      query: ({ page = 1, pageSize = 10 } = {}) =>
+        `/public/books/bestsellers?page=${page}&pageSize=${pageSize}`,
+    }),
   }),
 });
 
@@ -72,4 +80,5 @@ export const {
   useAddBookmarkMutation,
   useRemoveBookmarkMutation,
   useGetBookmarksQuery,
+  useGetBestSellingBooksQuery,
 } = booksApi;

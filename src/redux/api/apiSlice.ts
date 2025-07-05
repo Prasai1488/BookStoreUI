@@ -4,7 +4,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://localhost:7044", // ✅ your secure backend base URL
+    baseUrl: "https://bookstoreapi-ym8m.onrender.com", //  secure backend render base URL
     prepareHeaders: (headers, { getState }) => {
       const user = JSON.parse(localStorage.getItem("user") || "null");
       const token = user?.token;
@@ -16,7 +16,17 @@ export const apiSlice = createApi({
       return headers;
     },
   }),
-  tagTypes: ["Bookmarks", "Cart","Orders","Reviews","AdminBooks","Announcement"],
+  tagTypes: [
+    "Bookmarks",
+    "Cart",
+    "Orders",
+    "Reviews",
+    "AdminBooks",
+    "Announcement",
+  ],
 
   endpoints: () => ({}),
 });
+
+
+// Local host URL : "https://localhost:7044"
