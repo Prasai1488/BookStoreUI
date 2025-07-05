@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import BookCard from "../../components/books/BookCard";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Navigation } from "swiper/modules";
@@ -17,7 +17,9 @@ const BestSellers = () => {
 
   return (
     <div className="py-10">
-      <h2 className="text-3xl font-semibold mb-6">🏆 Best Sellers (books with more that 5 sales)</h2>
+      <h2 className="text-3xl font-semibold mb-6">
+        🏆 Best Sellers (books with more that 5 sales)
+      </h2>
 
       {isLoading ? (
         <p>Loading...</p>

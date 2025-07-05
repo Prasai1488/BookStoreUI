@@ -5,7 +5,7 @@ export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
     baseUrl: "https://bookstoreapi-ym8m.onrender.com", //  secure backend render base URL
-    prepareHeaders: (headers, { getState }) => {
+    prepareHeaders: (headers) => {
       const user = JSON.parse(localStorage.getItem("user") || "null");
       const token = user?.token;
 
@@ -27,6 +27,5 @@ export const apiSlice = createApi({
 
   endpoints: () => ({}),
 });
-
 
 // Local host URL : "https://localhost:7044"
