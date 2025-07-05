@@ -1,54 +1,71 @@
-# React + TypeScript + Vite
+# 📚 BookStore - Full Stack Web App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A private library store going digital. This system allows users to browse and purchase books online, with advanced filtering, search, and sorting features. Registered members can whitelist books, add to cart, place in-store pickup orders, receive claim codes via email, and review only purchased books. The platform includes real-time features, tiered discounts, and a full admin dashboard for inventory, discounts, and announcements.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🔗 Live Demo
 
-## Expanding the ESLint configuration
+- Frontend: [book-store-ui-rust.vercel.app](https://book-store-ui-rust.vercel.app)
+- Backend API: [bookstoreapi-ym8m.onrender.com](https://bookstoreapi-ym8m.onrender.com)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+---
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+ Key Features Summary
+🔍 Browse, search, filter, and sort books (genre, author, format, rating, price, etc.)
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+🛒 Members: Register, bookmark, add to cart, cancel orders
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+🧾 Receive email claim code and bill for in-store pickup
+
+💬 Post-purchase review & rating system
+
+🎁 Tiered discounts (5% for 5+ books, 10% after 10 orders)
+
+🧑‍💼 Admin: Full book inventory management, timed discounts & announcements
+
+🔔 Real-time announcement banners and order broadcasts using SignalR
+
+---
+
+## 👨‍💻 User Roles
+
+- **Staff**: Staff can process the member claim code to fulfil the order
+- **Registered User**: Leave reviews, place orders,Bookmark books, add to cart.
+- **Admin**: Add/edit/delete books, post announcements
+
+---
+
+## 📝 How to Test the App
+
+You can use the following test credentials to explore:
+
+- **Admin**  
+  Email: `prasaiprithvi4@gmail.com`  
+  Password: `Admin@123`
+
+- **Regular User**  
+  Register manually with a valid email or use:
+  Email: `sandeep@gmail.com`  
+  Password: `test@123`
+
+---
+
+## 🛠️ Tech Stack
+
+- **Frontend:** React, Redux Toolkit, TypeScript, Vite
+- **Backend:** .NET Core Web API, Entity Framework Core, PostgreSQL
+- **Other:** SignalR, SMTP for emails, Axios
+
+---
+
+## ⚙️ Setup Instructions
+
+### Frontend
+
+```bash
+cd frontend
+npm install
+npm run dev
+
